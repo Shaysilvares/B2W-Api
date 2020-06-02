@@ -27,7 +27,7 @@ public class PlanetaApiTest {
 	RestTemplate template = new RestTemplate();
 
 	@Test
-	public void AdicionarPlaneta() {
+	public void adicionarPlaneta() {
 		planeta = new Planeta("1,", "Terra", "Tropical", "Populoso", 1);
 		ResponseEntity<String> response = this.template.postForEntity(this.url, this.planeta, String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
@@ -46,7 +46,7 @@ public class PlanetaApiTest {
 	}
 
 	@Test
-	public void DeletarPorId() {
+	public void deletarPorId() {
 		ResponseEntity<String> response = this.template.getForEntity(this.url + id, String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
 		

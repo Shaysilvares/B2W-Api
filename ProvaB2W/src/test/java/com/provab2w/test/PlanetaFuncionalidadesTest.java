@@ -23,13 +23,13 @@ public class PlanetaFuncionalidadesTest {
 	PlanetaRepository repository;
 
 	@Test
-	public void CriarMiniMundo() {
+	public void criarMiniMundo() {
 		planeta = new Planeta("1", "Terra", "Tropical", "Populoso", 1);
 		this.repository.save(planeta);
 	}
 
 	@Test
-	public void AdicionarPlaneta() {
+	public void adicionarPlaneta() {
 		novoPlaneta = new Planeta("2", "Marte", "Seco", "Árido", 1);
 		this.repository.save(novoPlaneta);
 		Assert.assertFalse(novoPlaneta.getId().isEmpty());
@@ -49,7 +49,7 @@ public class PlanetaFuncionalidadesTest {
 	}
 
 	@Test
-	public void DeletarPorId() {
+	public void deletarPorId() {
 		List<Planeta> planetas = repository.findAll();
 		Assert.assertNotNull(planetas);
 
