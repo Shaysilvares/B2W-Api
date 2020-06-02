@@ -1,26 +1,36 @@
 package com.provab2w.model;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document
 public class Planeta {
 
 	@Id
 	private String id;
-	
+
+	@NotNull
+	@JsonProperty(required = true)
 	private String nome;
-	
+
+	@NotNull
+	@JsonProperty(required = true)
 	private String clima;
-	
+
+	@NotNull
+	@JsonProperty(required = true)
 	private String terreno;
-	
+
 	private int quantidadeAparicoes;
 
 	public Planeta() {
 		super();
 	}
-	
+
 	public Planeta(String id, String nome, String clima, String terreno, int quantidadeAparicoes) {
 		super();
 		this.id = id;

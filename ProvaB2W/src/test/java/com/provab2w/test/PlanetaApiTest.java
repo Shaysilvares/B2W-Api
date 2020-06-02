@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.provab2w.model.Planeta;
@@ -26,26 +27,36 @@ public class PlanetaApiTest {
 	String id = "/5ed18ba3086a52288b3047d4";
 	RestTemplate template = new RestTemplate();
 
-	@Test
+	
 	public void adicionarPlaneta() {
 		planeta = new Planeta("1,", "Terra", "Tropical", "Populoso", 1);
 		ResponseEntity<String> response = this.template.postForEntity(this.url, this.planeta, String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
 	}
-
-	@Test
+	
 	public void buscarTodos() {
 		ResponseEntity<String> response = this.template.getForEntity(this.url, String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
 	}
 
-	@Test
+
 	public void buscarPorId() {
 		ResponseEntity<String> response = this.template.getForEntity(this.url + this.id, String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
 	}
-
+	
 	@Test
+	public void buscarPorIdNaoExistente() {
+		try {
+			this.template.getForEntity(this.url + "50", String.class);
+			Assert.fail();
+		} catch (HttpClientErrorException e) {
+			Assert.assertEquals(404, e.getRawStatusCode());
+			Assert.assertEquals(true, e.getResponseBodyAsString().contains("Not Found"));
+		}
+	}
+
+
 	public void deletarPorId() {
 		ResponseEntity<String> response = this.template.getForEntity(this.url + id, String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
@@ -63,7 +74,7 @@ public class PlanetaApiTest {
 		return entity;
 	}
 	
-	@Test
+	
 	public void buscarPlanetasSwapi() {
 		ResponseEntity<String> response = this.template.getForEntity(this.url + "/planets", String.class);
 		Assert.assertEquals(200, response.getStatusCodeValue());
