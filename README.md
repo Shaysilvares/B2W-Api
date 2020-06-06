@@ -8,3 +8,4 @@ Spring Boot <br>
 MongoDb <br>
 Maven <br>
 Junit 4 <br>
+Swagger 2
