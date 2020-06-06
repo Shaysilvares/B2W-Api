@@ -12,5 +12,7 @@ public interface PlanetaService {
 	
 	Planeta buscarPorId(String id);
 	
+	List<Planeta> buscarPorNome(String nome);
+	
 	void removerPlaneta(String id);
 }

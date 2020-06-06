@@ -29,6 +29,9 @@ import com.provab2w.model.Planeta;
 import com.provab2w.responses.Response;
 import com.provab2w.services.PlanetaService;
 
+import io.swagger.annotations.Api;
+
+@Api(tags = {"Planeta Endpoints"})
 @RestController
 @RequestMapping("/api")
 public class PlanetaController {
@@ -52,6 +55,11 @@ public class PlanetaController {
 		}
 		return ResponseEntity.ok(new Response<Planeta>(planeta));
 	}
+	
+	@GetMapping(path = "/planetas/{nome}")
+	public ResponseEntity<Response<List<Planeta>>> buscarPlanetaPorNome(@PathVariable(name = "nome") String nome) {
+		return ResponseEntity.ok(new Response<List<Planeta>>(this.service.buscarPorNome(nome)));
+	}
 
 	@PostMapping
 	public ResponseEntity<Response<Planeta>> adicionarPlaneta(@Valid @RequestBody Planeta planeta,
@@ -72,8 +80,8 @@ public class PlanetaController {
 		return ResponseEntity.ok(new Response<Integer>(1));
 	}
 
-	@GetMapping("/planets")
-	public void buscarPlanetasApi() throws JsonMappingException, JsonProcessingException {
+	@GetMapping("/planetas")
+	public void buscarPlanetasSwapi() throws JsonMappingException, JsonProcessingException {
 		String url = "https://swapi.dev/api/planets/";
 
 		ObjectMapper mapper = new ObjectMapper();
