@@ -65,6 +65,17 @@ public class PlanetaApiTest {
 			Assert.assertEquals(true, e.getResponseBodyAsString().contains("Not Found"));
 		}
 	}
+	
+	@Test
+	public void buscarPorNomeNaoExistente() {
+		try {
+			this.template.getForEntity(this.url + "Plutão", String.class);
+			Assert.fail();
+		} catch (HttpClientErrorException e) {
+			Assert.assertEquals(404, e.getRawStatusCode());
+			Assert.assertEquals(true, e.getResponseBodyAsString().contains("Not Found"));
+		}
+	}
 
 	@Test
 	public void deletarPorId() {

@@ -1,6 +1,5 @@
 package com.provab2w.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,14 +21,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.provab2w.model.Planet;
+import com.provab2w.dto.PlanetaDTO;
 import com.provab2w.model.Planeta;
 import com.provab2w.responses.Response;
 import com.provab2w.services.PlanetaService;
 
 import io.swagger.annotations.Api;
 
-@Api(tags = {"Planeta Endpoints"})
+@Api(tags = { "Planeta Endpoints" })
 @RestController
 @RequestMapping("/api")
 public class PlanetaController {
@@ -50,28 +47,20 @@ public class PlanetaController {
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Response<Planeta>> buscarPlanetaPorId(@PathVariable(name = "id") String id) {
 		Planeta planeta = this.service.buscarPorId(id);
-		if(planeta == null) {
+		if (planeta == null) {
 			return new ResponseEntity<Response<Planeta>>(HttpStatus.BAD_REQUEST);
 		}
 		return ResponseEntity.ok(new Response<Planeta>(planeta));
 	}
-	
+
 	@GetMapping(path = "/planetas/{nome}")
 	public ResponseEntity<Response<List<Planeta>>> buscarPlanetaPorNome(@PathVariable(name = "nome") String nome) {
 		return ResponseEntity.ok(new Response<List<Planeta>>(this.service.buscarPorNome(nome)));
 	}
 
 	@PostMapping
-	public ResponseEntity<Response<Planeta>> adicionarPlaneta(@Valid @RequestBody Planeta planeta,
-			BindingResult result) {
-		if (result.hasErrors()) {
-			List<String> erros = new ArrayList<String>();
-			for (ObjectError erro : result.getAllErrors()) {
-				erros.add(erro.getDefaultMessage());
-				return ResponseEntity.badRequest().body(new Response<Planeta>(erros));
-			}
-		}
-		return ResponseEntity.ok(new Response<Planeta>(this.service.adicionarPlaneta(planeta)));
+	public ResponseEntity<Planeta> adicionarPlaneta(@Valid @RequestBody Planeta planeta) {
+		return ResponseEntity.ok(this.service.adicionarPlaneta(planeta));
 	}
 
 	@DeleteMapping(path = "/{id}")
@@ -81,7 +70,7 @@ public class PlanetaController {
 	}
 
 	@GetMapping("/planetas")
-	public void buscarPlanetasSwapi() throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<Response<String>> buscarPlanetasSwapi() throws JsonMappingException, JsonProcessingException {
 		String url = "https://swapi.dev/api/planets/";
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -90,10 +79,10 @@ public class PlanetaController {
 
 		@SuppressWarnings("unchecked")
 		List<Object> results = (List<Object>) response.get("results");
-		List<Planet> planets = mapper.convertValue(results, new TypeReference<List<Planet>>() {
+		List<PlanetaDTO> planets = mapper.convertValue(results, new TypeReference<List<PlanetaDTO>>() {
 		});
 
-		for (Planet planet : planets) {
+		for (PlanetaDTO planet : planets) {
 			Planeta planeta = new Planeta();
 
 			planeta.setNome(planet.getName());
@@ -103,5 +92,6 @@ public class PlanetaController {
 
 			this.service.adicionarPlaneta(planeta);
 		}
+		return ResponseEntity.ok(new Response<String>("Planetas buscados da SWAPI e salvos com sucesso!"));
 	}
 }

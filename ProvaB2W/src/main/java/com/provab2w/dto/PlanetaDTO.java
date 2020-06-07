@@ -1,21 +1,18 @@
-package com.provab2w.model;
+package com.provab2w.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Planet {
+public class PlanetaDTO {
 
 	private String climate;
-	
+
 	private String name;
-	
+
 	private String terrain;
-	
+
 	private List<String> films;
 
-	public Planet() {
+	public PlanetaDTO() {
 		super();
 	}
 

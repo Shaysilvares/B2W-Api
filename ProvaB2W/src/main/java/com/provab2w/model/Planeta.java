@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Document
 public class Planeta {
 
@@ -14,15 +12,12 @@ public class Planeta {
 	private String id;
 
 	@NotNull
-	@JsonProperty(required = true)
 	private String nome;
 
 	@NotNull
-	@JsonProperty(required = true)
 	private String clima;
 
 	@NotNull
-	@JsonProperty(required = true)
 	private String terreno;
 
 	private int quantidadeAparicoes;
