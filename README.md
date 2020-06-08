@@ -8,4 +8,7 @@ Spring Boot <br>
 MongoDb <br>
 Maven <br>
 Junit 4 <br>
-Swagger 2
+Swagger 2 <br>
+
+Uso da documentação da API:
+Ao executar o projeto em localhost, acessar http://localhost:8080/swagger-ui.html
