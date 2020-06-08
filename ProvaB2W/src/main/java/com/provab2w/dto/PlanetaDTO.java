@@ -2,6 +2,8 @@ package com.provab2w.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlanetaDTO {
 
