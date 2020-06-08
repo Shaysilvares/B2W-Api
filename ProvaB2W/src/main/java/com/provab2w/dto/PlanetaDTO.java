@@ -2,6 +2,7 @@ package com.provab2w.dto;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlanetaDTO {
 
 	private String climate;
